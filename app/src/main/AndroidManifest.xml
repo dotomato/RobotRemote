@@ -2,8 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.chen.robotremote">
 
-    <!-- 用于访问网络，网络定位需要上网 -->
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -12,16 +18,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MVPs.Main.MainActivity">
+
+        <!-- begin: baidu speech sdk-->
+        <!-- 请填写应用实际的APP_ID -->
+        <meta-data android:name="com.baidu.speech.APP_ID" android:value="9805370"/>
+        <!-- 请填写应用实际的API_KEY -->
+        <meta-data android:name="com.baidu.speech.API_KEY" android:value="xl8RdGWiDqRoh1G1BNMZmLv1"/>
+        <!-- 请填写应用实际的SECRET_KEY -->
+        <meta-data android:name="com.baidu.speech.SECRET_KEY" android:value="0134ce7b5d001167d31b52ec1fe73d5e"/>
+
+        <service
+            android:name="com.baidu.speech.VoiceRecognitionService"
+            android:exported="false" />
+
+        <activity android:name=".MVPs.Main.MainActivity" android:windowSoftInputMode="adjustPan|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MVPs.Option.SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
     </application>
 
 </manifest>

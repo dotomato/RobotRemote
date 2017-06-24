@@ -92,11 +92,13 @@ public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuIte
                             }
                         })
                         .setNegativeButton("取消", null).show();
+                break;
 
             case R.id.setup_js:
                 PrefrenceManager.enableJavascript = !PrefrenceManager.enableJavascript;
                 PrefrenceManager.storerefrence(this);
                 mMainFragment.set_webview_js(PrefrenceManager.enableJavascript);
+                break;
         }
         return true;
     }

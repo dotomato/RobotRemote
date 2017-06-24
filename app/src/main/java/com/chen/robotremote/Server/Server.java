@@ -43,9 +43,12 @@ public class Server {
         @GET("/turnright")
         Observable<BaseResult> turnright();
 
+        @GET("/speech")
+        Observable<BaseResult> speech(@Query("content") String content);
+
 //        @Headers({"Content-Type: application/json", "Accept: application/json"})
-//        @POST(baseurl + "/newpoint")
-//        Observable<BaseResult> newPoint(@Body PointData2 var);
+//        @POST("/speech")
+//        Observable<BaseResult> speech(@Body PointData2 var);
 
     }
 

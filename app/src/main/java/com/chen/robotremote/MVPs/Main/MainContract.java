@@ -35,6 +35,8 @@ public class MainContract {
 
         void moveright();
 
+        void speech(String content);
+
 //        void setup_ip(String url);
     }
 }

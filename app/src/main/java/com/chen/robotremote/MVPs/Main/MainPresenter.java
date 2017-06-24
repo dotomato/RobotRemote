@@ -120,4 +120,17 @@ public class MainPresenter implements MainContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void speech(String content) {
+        Server.getApi().speech(content)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new MyAction1<BaseResult>() {
+                    @Override
+                    public void call() {
+                        mMainView.show_message(String.valueOf(mVar.code));
+                    }
+                });
+    }
 }
