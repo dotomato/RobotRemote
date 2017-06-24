@@ -14,20 +14,26 @@ public class MainContract {
 
         void set_video_url(String url);
 
-        void show_setup_ip_window();
+        void set_webview_js(boolean enable);
+
+        void show_message(String text);
 
     }
 
     interface Presenter extends BasePresenter {
 
 
-        void turnleft_button();
+        void turnleft();
 
-        void turnright_button();
+        void turnright();
 
-        void up_button();
+        void movefront();
 
-        void down_button();
+        void moveback();
+
+        void moveleft();
+
+        void moveright();
 
 //        void setup_ip(String url);
     }

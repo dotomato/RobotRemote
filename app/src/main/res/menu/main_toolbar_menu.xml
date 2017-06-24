@@ -7,4 +7,14 @@
         android:title="设置树莓派IP地址"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/setup_video_url"
+        android:title="设置视频页面"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/setup_js"
+        android:title="启用或禁用页面js"
+        app:showAsAction="never" />
+
     </menu>
