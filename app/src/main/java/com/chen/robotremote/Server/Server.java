@@ -1,6 +1,7 @@
 package com.chen.robotremote.Server;
 
 import com.chen.robotremote.Server.ServerDataType.BaseResult;
+import com.chen.robotremote.Server.ServerDataType.THResult;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -42,6 +43,24 @@ public class Server {
 
         @GET("/turnright")
         Observable<BaseResult> turnright();
+
+        @GET("/sing")
+        Observable<BaseResult> sing();
+
+        @GET("/dance")
+        Observable<BaseResult> dance();
+
+        @GET("/lighton")
+        Observable<BaseResult> lighton();
+
+        @GET("/lightoff")
+        Observable<BaseResult> lightoff();
+
+        @GET("/niconiconi")
+        Observable<BaseResult> niconiconi();
+
+        @GET("/getth")
+        Observable<THResult> getth();
 
         @GET("/speech")
         Observable<BaseResult> speech(@Query("content") String content);

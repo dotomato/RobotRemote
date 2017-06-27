@@ -1,13 +1,16 @@
 package com.chen.robotremote.MVPs.Main;
 
 import android.content.Intent;
+import android.database.Observable;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 
 import com.chen.robotremote.PrefrenceManager;
 import com.chen.robotremote.Server.MyAction1;
 import com.chen.robotremote.Server.Server;
 import com.chen.robotremote.Server.ServerDataType.BaseResult;
+import com.chen.robotremote.Server.ServerDataType.THResult;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -22,6 +25,7 @@ public class MainPresenter implements MainContract.Presenter {
 
 
     private final MainContract.View mMainView;
+    private final String TAG = "MainPresenter";
 
     MainPresenter(MainContract.View mainView) {
         mMainView = mainView;
@@ -30,6 +34,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void start() {
+        get_th();
         mMainView.set_video_url(PrefrenceManager.videourlname);
     }
 
@@ -51,7 +56,6 @@ public class MainPresenter implements MainContract.Presenter {
                 .subscribe(new MyAction1<BaseResult>() {
                     @Override
                     public void call() {
-                        mMainView.show_message(String.valueOf(mVar.code));
                     }
                 });
     }
@@ -64,7 +68,6 @@ public class MainPresenter implements MainContract.Presenter {
                 .subscribe(new MyAction1<BaseResult>() {
                     @Override
                     public void call() {
-                        mMainView.show_message(String.valueOf(mVar.code));
                     }
                 });
     }
@@ -77,7 +80,6 @@ public class MainPresenter implements MainContract.Presenter {
                 .subscribe(new MyAction1<BaseResult>() {
                     @Override
                     public void call() {
-                        mMainView.show_message(String.valueOf(mVar.code));
                     }
                 });
     }
@@ -90,7 +92,6 @@ public class MainPresenter implements MainContract.Presenter {
                 .subscribe(new MyAction1<BaseResult>() {
                     @Override
                     public void call() {
-                        mMainView.show_message(String.valueOf(mVar.code));
                     }
                 });
     }
@@ -103,7 +104,6 @@ public class MainPresenter implements MainContract.Presenter {
                 .subscribe(new MyAction1<BaseResult>() {
                     @Override
                     public void call() {
-                        mMainView.show_message(String.valueOf(mVar.code));
                     }
                 });
     }
@@ -116,21 +116,162 @@ public class MainPresenter implements MainContract.Presenter {
                 .subscribe(new MyAction1<BaseResult>() {
                     @Override
                     public void call() {
-                        mMainView.show_message(String.valueOf(mVar.code));
                     }
                 });
     }
 
     @Override
     public void speech(String content) {
-        Server.getApi().speech(content)
+        if (content.equals("前进")) {
+            movefront();
+            return;
+        }
+
+        if (content.equals("后退")) {
+            moveback();
+            return;
+        }
+
+        if (content.equals("左转")) {
+            turnleft();
+            return;
+        }
+
+        if (content.equals("右转")) {
+            turnright();
+            return;
+        }
+
+        if (content.equals("左移")) {
+            moveleft();
+            return;
+        }
+
+        if (content.equals("右移")) {
+            moveright();
+            return;
+        }
+
+        if (content.equals("唱歌")) {
+            sing();
+            return;
+        }
+
+        if (content.equals("跳舞")) {
+            dance();
+            return;
+        }
+
+        if (content.equals("开灯")) {
+            lighton();
+            return;
+        }
+
+        if (content.equals("关灯")) {
+            lightoff();
+            return;
+        }
+
+        niconiconi();
+//
+//        Server.getApi().speech(content)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new MyAction1<BaseResult>() {
+//                    @Override
+//                    public void call() {
+//                        mMainView.show_message(String.valueOf(mVar.code));
+//                    }
+//                });
+    }
+
+    public void get_th(){
+        Runnable thread = new Mytimer();
+        new Thread(thread).start();
+    }
+
+    class Mytimer implements Runnable{
+
+        @Override
+        public void run() {
+            while (true) {
+//                Log.d(TAG,"getth");
+                Server.getApi().getth()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new MyAction1<THResult>() {
+                            public void call() {
+                                mMainView.show_th(mVar.t, mVar.h);
+                            }
+                        });
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void sing(){
+        Server.getApi().sing()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new MyAction1<BaseResult>() {
                     @Override
                     public void call() {
-                        mMainView.show_message(String.valueOf(mVar.code));
                     }
                 });
+
     }
+
+    public void niconiconi(){
+        Server.getApi().niconiconi()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new MyAction1<BaseResult>() {
+                    @Override
+                    public void call() {
+                    }
+                });
+
+    }
+
+    public void dance(){
+        Server.getApi().dance()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new MyAction1<BaseResult>() {
+                    @Override
+                    public void call() {
+                    }
+                });
+
+    }
+
+    public void lighton(){
+        Server.getApi().lighton()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new MyAction1<BaseResult>() {
+                    @Override
+                    public void call() {
+                    }
+                });
+
+    }
+
+    public void lightoff(){
+        Server.getApi().lightoff()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new MyAction1<BaseResult>() {
+                    @Override
+                    public void call() {
+                    }
+                });
+
+    }
+
+
 }

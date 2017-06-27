@@ -134,4 +134,15 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/webview" />
 
+    <TextView
+        android:id="@+id/th_shower"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="0dp"
+        app:layout_constraintLeft_toLeftOf="@+id/speech"
+        app:layout_constraintRight_toRightOf="@+id/speech"
+        app:layout_constraintTop_toTopOf="@+id/constraintLayout" />
+
 </android.support.constraint.ConstraintLayout>

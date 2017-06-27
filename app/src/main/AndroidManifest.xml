@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.chen.robotremote">
 
-
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -19,25 +18,36 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!-- begin: baidu speech sdk-->
+        <!-- begin: baidu speech sdk -->
         <!-- 请填写应用实际的APP_ID -->
-        <meta-data android:name="com.baidu.speech.APP_ID" android:value="9805370"/>
+        <meta-data
+            android:name="com.baidu.speech.APP_ID"
+            android:value="9805370" />
         <!-- 请填写应用实际的API_KEY -->
-        <meta-data android:name="com.baidu.speech.API_KEY" android:value="xl8RdGWiDqRoh1G1BNMZmLv1"/>
+        <meta-data
+            android:name="com.baidu.speech.API_KEY"
+            android:value="xl8RdGWiDqRoh1G1BNMZmLv1" />
         <!-- 请填写应用实际的SECRET_KEY -->
-        <meta-data android:name="com.baidu.speech.SECRET_KEY" android:value="0134ce7b5d001167d31b52ec1fe73d5e"/>
+        <meta-data
+            android:name="com.baidu.speech.SECRET_KEY"
+            android:value="0134ce7b5d001167d31b52ec1fe73d5e" />
 
         <service
             android:name="com.baidu.speech.VoiceRecognitionService"
             android:exported="false" />
 
-        <activity android:name=".MVPs.Main.MainActivity" android:windowSoftInputMode="adjustPan|stateHidden">
+        <activity
+            android:name=".MVPs.Main.MainActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MVPs.Options.SettingsActivity"
+            android:label="@string/title_activity_settings"></activity>
     </application>
 
 </manifest>

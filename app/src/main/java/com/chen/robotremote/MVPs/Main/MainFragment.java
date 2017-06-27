@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -53,6 +54,9 @@ public class MainFragment extends Fragment implements MainContract.View, Recogni
     @BindView(R.id.speech)
     public Button speechbutton;
 
+    @BindView(R.id.th_shower)
+    public TextView th_shower;
+
     @Override
     public void setPresenter(MainContract.Presenter presenter) {
         mPresenter = presenter;
@@ -66,13 +70,18 @@ public class MainFragment extends Fragment implements MainContract.View, Recogni
         mView = inflater.inflate(R.layout.main_frag, container, false);
         ButterKnife.bind(this, mView);
 
-        mWebView.getSettings().setJavaScriptEnabled(PrefrenceManager.enableJavascript);
+        WebSettings ws = mWebView.getSettings();
+        ws.setJavaScriptEnabled(PrefrenceManager.enableJavascript);
         mWebView.setWebViewClient(new WebViewClient(){
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
                 return true;
+
             }
         });
+        ws.setSupportZoom(true);
+        ws.setBuiltInZoomControls(true);
+
 
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(
                 getContext(), new ComponentName(getContext(), VoiceRecognitionService.class));
@@ -101,13 +110,22 @@ public class MainFragment extends Fragment implements MainContract.View, Recogni
 
     @Override
     public void set_webview_js(boolean enable) {
-        mWebView.getSettings().setJavaScriptEnabled(enable);
+        WebSettings ws = mWebView.getSettings();
+        ws.setJavaScriptEnabled(enable);
+        ws.setSupportZoom(true);
+        ws.setBuiltInZoomControls(true);
+
         show_message("JavaSript Enable: "+String.valueOf(enable));
     }
 
     @Override
     public void show_message(String text) {
         Snackbar.make(mView, text, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void show_th(int t, int h) {
+        th_shower.setText("温度："+ String.valueOf(t)+" 湿度："+String.valueOf(h));
     }
 
     @OnClick(R.id.turnleft)

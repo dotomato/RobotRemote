@@ -18,6 +18,7 @@ public class MainContract {
 
         void show_message(String text);
 
+        void show_th(int t,int h);
     }
 
     interface Presenter extends BasePresenter {
