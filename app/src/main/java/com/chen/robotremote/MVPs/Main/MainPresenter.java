@@ -1,19 +1,15 @@
 package com.chen.robotremote.MVPs.Main;
 
 import android.content.Intent;
-import android.database.Observable;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.view.View;
+import android.preference.PreferenceManager;
 
-import com.chen.robotremote.PrefrenceManager;
+import com.chen.robotremote.PM;
 import com.chen.robotremote.Server.MyAction1;
 import com.chen.robotremote.Server.Server;
 import com.chen.robotremote.Server.ServerDataType.BaseResult;
 import com.chen.robotremote.Server.ServerDataType.THResult;
 
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -26,21 +22,58 @@ public class MainPresenter implements MainContract.Presenter {
 
     private final MainContract.View mMainView;
     private final String TAG = "MainPresenter";
+    private Mytimer th_thread;
 
     MainPresenter(MainContract.View mainView) {
         mMainView = mainView;
         mMainView.setPresenter(this);
     }
 
+    private class Mytimer implements Runnable{
+
+        private boolean flag = true;
+        @Override
+        public void run() {
+            while (flag) {
+//                Log.d(TAG,"getth");
+                Server.getApi().getth()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new MyAction1<THResult>() {
+                            public void call() {
+                                mMainView.show_th(mVar.t, mVar.h);
+                            }
+                        });
+                try {
+                    long i = Math.max(PM.getIns().getThInt(),100L);
+                    Thread.sleep(i);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        public void stop(){
+            flag = false;
+        }
+    }
+
     @Override
     public void start() {
-        get_th();
-        mMainView.set_video_url(PrefrenceManager.videourlname);
+        if (th_thread!=null){
+            th_thread.stop();
+        }
+        th_thread = new Mytimer();
+        new Thread(th_thread).start();
+        mMainView.set_video_url(PM.getIns().getVideoUrl());
+        mMainView.set_webview_js(PM.getIns().getJsEnable());
+        Server.setSeverHost(PM.getIns().getHostName());
     }
 
     @Override
     public void destroy() {
-
+        th_thread.stop();
+        th_thread=null;
     }
 
     @Override
@@ -185,33 +218,7 @@ public class MainPresenter implements MainContract.Presenter {
 //                });
     }
 
-    public void get_th(){
-        Runnable thread = new Mytimer();
-        new Thread(thread).start();
-    }
 
-    class Mytimer implements Runnable{
-
-        @Override
-        public void run() {
-            while (true) {
-//                Log.d(TAG,"getth");
-                Server.getApi().getth()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new MyAction1<THResult>() {
-                            public void call() {
-                                mMainView.show_th(mVar.t, mVar.h);
-                            }
-                        });
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 
     public void sing(){
         Server.getApi().sing()

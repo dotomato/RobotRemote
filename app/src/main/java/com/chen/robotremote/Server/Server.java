@@ -3,6 +3,8 @@ package com.chen.robotremote.Server;
 import com.chen.robotremote.Server.ServerDataType.BaseResult;
 import com.chen.robotremote.Server.ServerDataType.THResult;
 
+import org.jetbrains.annotations.NotNull;
+
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -20,7 +22,7 @@ import rx.Observable;
 
 public class Server {
 
-    public static String server_host="http://192.168.1.101:5000";
+    public static String server_host="http://127.0.0.1:80";
     private static MyserverInterface mServer=null;
 
 
@@ -73,18 +75,12 @@ public class Server {
 
 
 
-    public static void setSeverHost(String host){
+    public static void setSeverHost(@NotNull String host){
         server_host = host;
         mServer = null;
     }
 
     public static MyserverInterface getApi(){
-        if (server_host==null) {
-//            Exception e = new Exception();
-//            throw e;
-            mServer = null;
-            return null;
-        }
         if (mServer==null) {
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(server_host)

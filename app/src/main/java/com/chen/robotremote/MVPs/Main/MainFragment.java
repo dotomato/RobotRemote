@@ -19,14 +19,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.speech.VoiceRecognitionService;
-import com.chen.robotremote.PrefrenceManager;
+import com.chen.robotremote.PM;
 import com.chen.robotremote.R;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,7 +67,6 @@ public class MainFragment extends Fragment implements MainContract.View, Recogni
         ButterKnife.bind(this, mView);
 
         WebSettings ws = mWebView.getSettings();
-        ws.setJavaScriptEnabled(PrefrenceManager.enableJavascript);
         mWebView.setWebViewClient(new WebViewClient(){
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
@@ -81,7 +76,6 @@ public class MainFragment extends Fragment implements MainContract.View, Recogni
         });
         ws.setSupportZoom(true);
         ws.setBuiltInZoomControls(true);
-
 
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(
                 getContext(), new ComponentName(getContext(), VoiceRecognitionService.class));
@@ -114,8 +108,6 @@ public class MainFragment extends Fragment implements MainContract.View, Recogni
         ws.setJavaScriptEnabled(enable);
         ws.setSupportZoom(true);
         ws.setBuiltInZoomControls(true);
-
-        show_message("JavaSript Enable: "+String.valueOf(enable));
     }
 
     @Override

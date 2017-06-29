@@ -1,6 +1,7 @@
 package com.chen.robotremote.MVPs.Main;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
-import com.chen.robotremote.PrefrenceManager;
+import com.chen.robotremote.MVPs.Options2.OptionActivity2;
+import com.chen.robotremote.PM;
 import com.chen.robotremote.R;
 import com.chen.robotremote.Server.Server;
 import com.chen.robotremote.Utils.MyUtils;
@@ -29,8 +31,9 @@ public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_act);
 
-        PrefrenceManager.loadPrefrence(this);
-        Server.setSeverHost(PrefrenceManager.hostname);
+        new PM(this);
+
+        Server.setSeverHost(PM.getIns().getHostName());
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
@@ -62,42 +65,9 @@ public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.setup_ip:
-                AlertDialog.Builder builder = new AlertDialog.Builder(this).setTitle("树莓派IP地址");
-                final EditText editText = new EditText(this);
-                editText.setText(PrefrenceManager.hostname);
-                builder.setView(editText)
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                PrefrenceManager.hostname = editText.getText().toString();
-                                PrefrenceManager.storerefrence(MainActivity.this);
-                                Server.setSeverHost(PrefrenceManager.hostname);
-                            }
-                        })
-                        .setNegativeButton("取消", null).show();
-                break;
-
-            case R.id.setup_video_url:
-                AlertDialog.Builder builder2 = new AlertDialog.Builder(this).setTitle("设置视频页面");
-                final EditText editText2 = new EditText(this);
-                editText2.setText(PrefrenceManager.videourlname);
-                builder2.setView(editText2)
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                PrefrenceManager.videourlname = editText2.getText().toString();
-                                PrefrenceManager.storerefrence(MainActivity.this);
-                                mMainFragment.set_video_url(PrefrenceManager.videourlname);
-                            }
-                        })
-                        .setNegativeButton("取消", null).show();
-                break;
-
-            case R.id.setup_js:
-                PrefrenceManager.enableJavascript = !PrefrenceManager.enableJavascript;
-                PrefrenceManager.storerefrence(this);
-                mMainFragment.set_webview_js(PrefrenceManager.enableJavascript);
+            case R.id.detail_setup:
+                Intent intent = new Intent(this, OptionActivity2.class);
+                this.startActivity(intent);
                 break;
         }
         return true;

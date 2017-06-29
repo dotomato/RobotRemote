@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="详细设置">
+
+    </PreferenceCategory>
+    <EditTextPreference
+        android:defaultValue="http://10.252.252.139:5000"
+        android:key="HostName_preference"
+        android:selectAllOnFocus="true"
+        android:singleLine="false"
+        android:title="树莓派服务器地址" />
+    <EditTextPreference
+        android:defaultValue="http://10.252.252.139/html/cam_pic_new.php"
+        android:key="VideoUrl_preference"
+        android:selectAllOnFocus="true"
+        android:singleLine="false"
+        android:title="视频服务器地址" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="JsEnable_preference"
+        android:title="页面JS脚本开关" />
+    <EditTextPreference
+        android:defaultValue="1000"
+        android:inputType="number"
+        android:key="ThInt_preference"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="温湿度监测频率（ms)" />
+</PreferenceScreen>
